@@ -124,6 +124,13 @@ module.exports = class XHRUpload extends Plugin {
   // Call `timer.progress()` to signal that there has been progress of any kind.
   // Call `timer.done()` when the upload has completed.
   createProgressTimeout (timeout, timeoutHandler) {
+
+    const { _: { supportsUploadProgress } } = this.getState();
+
+    if (!supportsUploadProgress) {
+      timeout = 0;
+    }
+
     const uppy = this.uppy
     const self = this
     let isDone = false
